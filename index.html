@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Catraca Puxa Ferro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap');
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            overflow: hidden;
+            height: 100vh;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .numpad-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #f8fafc;
+        }
+        .numpad-btn:active {
+            background: #fbbf24;
+            color: #000;
+            transform: scale(0.92);
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
+        }
+        .status-show { animation: slideUp 0.4s ease-out forwards; }
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-6">
+
+    <div class="glass-panel w-full max-w-5xl aspect-video rounded-[50px] shadow-2xl flex overflow-hidden relative">
+        
+        <div class="w-2/5 p-12 flex flex-col justify-between bg-black/20">
+            <div>
+                <div class="bg-yellow-400 w-16 h-1 w-16 mb-6 rounded-full"></div>
+                <h1 class="text-5xl font-extrabold italic text-white tracking-tighter leading-none">
+                    PUXA<br><span class="text-yellow-400">FERRO</span>
+                </h1>
+                <p class="text-slate-500 font-bold uppercase tracking-[0.4em] text-[10px] mt-4">Unidade de Acesso</p>
+            </div>
+
+            <div class="space-y-6">
+                <div class="flex items-center gap-4 group">
+                    <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-yellow-400 group-hover:bg-yellow-400 group-hover:text-black transition-all">
+                        <i class="fas fa-fingerprint text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-white font-bold text-sm">Acesso Rápido</p>
+                        <p class="text-slate-500 text-xs">Utilize seu CPF cadastrado</p>
+                    </div>
+                </div>
+                <p id="relogio" class="text-slate-400 font-mono text-xl font-bold"></p>
+            </div>
+        </div>
+
+        <div class="flex-1 p-12 flex flex-col items-center justify-center">
+            
+            <div class="w-full max-w-sm mb-10">
+                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-4 mb-2 block">Identificação</label>
+                <div id="display" class="bg-black/40 h-24 rounded-3xl flex items-center justify-center text-4xl font-mono font-bold text-white border border-white/10 tracking-widest shadow-inner">
+                    <span class="opacity-20">000.000.000-00</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 w-full max-w-sm">
+                <button onclick="add('1')" class="numpad-btn h-16 rounded-2xl text-2xl font-bold">1</button>
+                <button onclick="add('2')" class="numpad-btn h-16 rounded-2xl text-2xl font-bold">2</button>
+                <button onclick="add('3')" class="numpad-btn h-16 rounded-2xl text-2xl font-bold">3</button>
+                <button onclick="add('4')" class="numpad-btn h-16 rounded-2xl text-2xl font-bold">4</button>
+                <button onclick="add('5')" class="numpad-btn h-16 rounded-2xl text-2xl font-bold">5</button>
+                <button onclick="add('6')" class="numpad-btn h-16 rounded-2xl text-2xl font-bold">6</button>
+                <button onclick="add('7')" class="numpad-btn h-16 rounded-2xl text-2xl font-bold">7</button>
+                <button onclick="add('8')" class="numpad-btn h-16 rounded-2xl text-2xl font-bold">8</button>
+                <button onclick="add('9')" class="numpad-btn h-16 rounded-2xl text-2xl font-bold">9</button>
+                <button onclick="limpar()" class="h-16 rounded-2xl bg-red-500/10 text-red-500 font-bold hover:bg-red-500 hover:text-white transition-all text-xs">LIMPAR</button>
+                <button onclick="add('0')" class="numpad-btn h-16 rounded-2xl text-2xl font-bold">0</button>
+                <button onclick="enviar()" class="h-16 rounded-2xl bg-yellow-400 text-black font-black text-xl hover:shadow-[0_0_30px_rgba(251,191,36,0.3)] transition-all">OK</button>
+            </div>
+        </div>
+
+        <div id="statusOverlay" class="absolute inset-0 hidden z-50 p-12">
+            <div id="statusCard" class="w-full h-full rounded-[40px] flex flex-col items-center justify-center status-show shadow-2xl">
+                <div id="iconBox" class="w-32 h-32 rounded-full flex items-center justify-center mb-8 border-4 border-white/20">
+                    <i id="statusIcon" class="fas fa-check text-5xl"></i>
+                </div>
+                <h2 id="alunoNome" class="text-5xl font-black mb-2 uppercase tracking-tighter text-white">---</h2>
+                <p id="statusMensagem" class="text-2xl font-bold opacity-80 uppercase tracking-widest text-white">---</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cpf = "";
+        const API = 'https://backend-mu-gold-36.vercel.app';
+
+        // Relógio
+        setInterval(() => {
+            document.getElementById('relogio').innerText = new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
+        }, 1000);
+
+        function add(n) {
+            if (cpf.length < 11) {
+                cpf += n;
+                updateDisplay();
+            }
+        }
+
+        function limpar() {
+            cpf = "";
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            const d = document.getElementById('display');
+            if (cpf.length === 0) {
+                d.innerHTML = '<span class="opacity-20">000.000.000-00</span>';
+            } else {
+                d.innerText = formatar(cpf);
+            }
+        }
+
+        function formatar(v) {
+            v = v.replace(/\D/g, "");
+            v = v.replace(/(\d{3})(\d)/, "$1.$2");
+            v = v.replace(/(\d{3})(\d)/, "$1.$2");
+            v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            return v;
+        }
+
+        async function enviar() {
+            if (cpf.length < 11) return;
+            try {
+                const res = await fetch(`${API}/catraca`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cpf: cpf })
+                });
+                const dados = await res.json();
+                mostrarStatus(dados);
+            } catch (e) { alert("Erro de comunicação"); }
+        }
+
+        function mostrarStatus(dados) {
+            const overlay = document.getElementById('statusOverlay');
+            const card = document.getElementById('statusCard');
+            const nome = document.getElementById('alunoNome');
+            const msg = document.getElementById('statusMensagem');
+            const icon = document.getElementById('statusIcon');
+
+            overlay.classList.remove('hidden');
+            nome.innerText = dados.nome || "Não encontrado";
+
+            if (dados.status === "ATIVO") {
+                card.style.backgroundColor = "#10b981"; // Verde Emerald
+                msg.innerText = "ACESSO LIBERADO";
+                icon.className = "fas fa-check text-5xl";
+            } else {
+                card.style.backgroundColor = "#ef4444"; // Vermelho
+                msg.innerText = dados.mensagem || "ACESSO BLOQUEADO";
+                icon.className = "fas fa-times text-5xl";
+            }
+
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                limpar();
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
