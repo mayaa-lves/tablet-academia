@@ -11,214 +11,128 @@
         
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: radial-gradient(circle at top right, #1e293b 0%, #020617 100%);
-            overflow: hidden;
-            height: 100vh;
-            color: #f8fafc;
+            background: radial-gradient(circle at 20% 20%, #1e293b 0%, #020617 100%);
+            overflow: hidden; height: 100vh; color: #f8fafc;
         }
 
         .glass-panel {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(30px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Digital com animação de Scan */
+        .fingerprint-scanner {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .fingerprint-scanner::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border: 2px solid #fbbf24;
+            border-radius: 1.5rem;
+            animation: pulse-border 2s infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes pulse-border {
+            0% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0; }
+            100% { transform: scale(1); opacity: 0.5; }
         }
 
         .numpad-btn {
             background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.2s ease;
         }
 
         .numpad-btn:active {
             background: #fbbf24;
             color: #000;
-            transform: scale(0.95);
+            transform: scale(0.92);
         }
 
-        .shimmer::after {
-            content: "";
-            position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03), transparent);
-            transform: rotate(45deg);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
-
-        .typing-glow {
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.1);
-            border-color: rgba(251, 191, 36, 0.3) !important;
+        /* Garante uma linha só no CPF */
+        .cpf-display-text {
+            white-space: nowrap;
+            letter-spacing: 0.1em;
         }
     </style>
 </head>
-<body class="flex items-center justify-center p-4">
+<body class="flex items-center justify-center p-6">
 
-    <div class="glass-panel w-full max-w-5xl h-[600px] rounded-[60px] flex overflow-hidden relative border-t border-white/10">
+    <div class="glass-panel w-full max-w-6xl h-[620px] rounded-[50px] flex overflow-hidden relative">
         
-        <div class="w-1/3 p-12 flex flex-col justify-between bg-gradient-to-b from-white/5 to-transparent border-r border-white/5">
+        <div class="w-2/5 p-16 flex flex-col justify-between bg-gradient-to-br from-white/5 to-transparent border-r border-white/10">
             <div>
-                <div class="flex items-center gap-2 mb-8">
-                    <div class="h-3 w-3 rounded-full bg-yellow-400 animate-pulse"></div>
-                    <span class="text-[10px] font-black tracking-[0.3em] text-slate-400 uppercase">Sistema de Presença</span>
+                <div class="flex items-center gap-3 mb-10">
+                    <span class="h-1.5 w-8 rounded-full bg-yellow-400"></span>
+                    <span class="text-[10px] font-black tracking-[0.4em] text-slate-400 uppercase">Premium Access</span>
                 </div>
                 
-                <h1 class="text-6xl font-extrabold italic text-white tracking-tighter leading-[0.9]">
-                    PUXA<br><span class="text-yellow-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.4)]">FERRO</span>
+                <h1 class="text-7xl font-extrabold italic text-white tracking-tighter leading-[0.85] mb-6">
+                    PUXA<br><span class="text-yellow-400">FERRO</span>
                 </h1>
-                <p class="text-slate-400 text-sm mt-6 leading-relaxed">Bem-vindo, atleta. <br>Identifique-se para liberar o treino.</p>
+                <p class="text-slate-400 text-lg font-medium">Sua jornada começa aqui.<br><span class="text-white/60">Identifique-se.</span></p>
             </div>
 
-            <div class="space-y-8">
-                <div id="relogio" class="text-4xl font-light text-white/90 tracking-tight">00:00</div>
+            <div class="space-y-10">
+                <div id="relogio" class="text-6xl font-extralight text-white/40 tracking-tighter">00:00</div>
                 
-                <div class="flex items-center gap-4 group">
-                    <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-yellow-400 group-hover:bg-yellow-400 group-hover:text-black transition-all duration-300 border border-white/10">
-                        <i class="fas fa-fingerprint text-xl"></i>
+                <div onclick="simularDigital()" class="fingerprint-scanner flex items-center gap-5 p-5 rounded-[30px] bg-white/5 border border-white/10 w-fit hover:bg-white/10 active:scale-95">
+                    <div class="w-16 h-16 rounded-2xl bg-yellow-400 flex items-center justify-center text-black shadow-lg shadow-yellow-400/20">
+                        <i class="fas fa-fingerprint text-3xl"></i>
                     </div>
                     <div>
-                        <p class="text-white font-bold text-sm">Acesso Rápido</p>
-                        <p class="text-slate-500 text-[10px] uppercase tracking-wider">Use seu CPF cadastrado</p>
+                        <p class="text-white font-bold text-lg leading-tight">Check-in Biométrico</p>
+                        <p class="text-yellow-400/60 text-[10px] font-black uppercase tracking-widest">Toque para escanear</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="areaDigitacao" class="flex-1 p-12 flex flex-col items-center justify-center relative">
-            
-            <div class="w-full max-w-sm mb-8">
-                <label class="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-4 mb-3 block">Identificação do Aluno</label>
-                <div id="display" class="bg-black/40 h-24 rounded-[30px] flex items-center justify-center text-4xl font-mono font-bold text-white border-2 border-white/5 tracking-[0.15em] transition-all duration-300 shimmer overflow-hidden">
-                    <span id="cpfText" class="opacity-10">000.000.000-00</span>
+        <div id="areaDigitacao" class="flex-1 p-16 flex flex-col items-center justify-center bg-black/20">
+            <div class="w-full max-w-md mb-8">
+                <div class="flex justify-between items-end mb-3 px-4">
+                    <span id="labelStatus" class="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Aguardando CPF</span>
+                    <span class="text-[10px] text-slate-600 font-bold uppercase" id="contador">0 / 11</span>
+                </div>
+                <div id="display" class="h-20 rounded-[25px] flex items-center justify-center bg-black/40 border border-white/5 overflow-hidden">
+                    <span id="cpfText" class="cpf-display-text text-3xl font-mono font-bold text-white opacity-10">000.000.000-00</span>
                 </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-3 w-full max-w-sm">
-                <button onclick="add('1')" class="numpad-btn h-16 rounded-2xl text-2xl font-bold">1</button>
-                <button onclick="add('2')" class="numpad-btn h-16 rounded-2xl text-2xl font-bold">2</button>
-                <button onclick="add('3')" class="numpad-btn h-16 rounded-2xl text-2xl font-bold">3</button>
-                <button onclick="add('4')" class="numpad-btn h-16 rounded-2xl text-2xl font-bold">4</button>
-                <button onclick="add('5')" class="numpad-btn h-16 rounded-2xl text-2xl font-bold">5</button>
-                <button onclick="add('6')" class="numpad-btn h-16 rounded-2xl text-2xl font-bold">6</button>
-                <button onclick="add('7')" class="numpad-btn h-16 rounded-2xl text-2xl font-bold">7</button>
-                <button onclick="add('8')" class="numpad-btn h-16 rounded-2xl text-2xl font-bold">8</button>
-                <button onclick="add('9')" class="numpad-btn h-16 rounded-2xl text-2xl font-bold">9</button>
-                
-                <button onclick="backspace()" class="numpad-btn h-16 rounded-2xl text-yellow-400 flex items-center justify-center hover:bg-white/10">
-                    <i class="fas fa-backspace text-xl"></i>
-                </button>
-                
-                <button onclick="add('0')" class="numpad-btn h-16 rounded-2xl text-2xl font-bold">0</button>
-                
-                <button onclick="verificarAcesso()" class="h-16 rounded-2xl bg-yellow-400 text-black font-black text-xl hover:shadow-[0_0_40px_rgba(251,191,36,0.4)] transition-all">OK</button>
+            <div class="grid grid-cols-3 gap-4 w-full max-w-md">
+                <button onclick="add('1')" class="numpad-btn h-16 rounded-[22px] text-2xl font-bold text-white">1</button>
+                <button onclick="add('2')" class="numpad-btn h-16 rounded-[22px] text-2xl font-bold text-white">2</button>
+                <button onclick="add('3')" class="numpad-btn h-16 rounded-[22px] text-2xl font-bold text-white">3</button>
+                <button onclick="add('4')" class="numpad-btn h-16 rounded-[22px] text-2xl font-bold text-white">4</button>
+                <button onclick="add('5')" class="numpad-btn h-16 rounded-[22px] text-2xl font-bold text-white">5</button>
+                <button onclick="add('6')" class="numpad-btn h-16 rounded-[22px] text-2xl font-bold text-white">6</button>
+                <button onclick="add('7')" class="numpad-btn h-16 rounded-[22px] text-2xl font-bold text-white">7</button>
+                <button onclick="add('8')" class="numpad-btn h-16 rounded-[22px] text-2xl font-bold text-white">8</button>
+                <button onclick="add('9')" class="numpad-btn h-16 rounded-[22px] text-2xl font-bold text-white">9</button>
+                <button onclick="backspace()" class="numpad-btn h-16 rounded-[22px] text-yellow-400 flex items-center justify-center"><i class="fas fa-chevron-left text-xl"></i></button>
+                <button onclick="add('0')" class="numpad-btn h-16 rounded-[22px] text-2xl font-bold text-white">0</button>
+                <button id="btnOk" onclick="verificarAcesso()" class="h-16 rounded-[22px] bg-yellow-400 text-black font-black text-xl shadow-lg shadow-yellow-400/10">OK</button>
             </div>
-
-            <button onclick="limparTudo()" class="mt-6 text-slate-500 text-[10px] font-bold tracking-widest uppercase hover:text-red-400 transition-colors">Limpar Tudo</button>
+            <button onclick="limparTudo(true)" class="mt-8 text-slate-600 text-[10px] font-black uppercase tracking-widest hover:text-red-400 transition-all">Reiniciar</button>
         </div>
 
-        <div id="telaResposta" class="absolute inset-0 hidden z-50 p-12 bg-slate-950/95 flex flex-col items-center justify-center text-center">
-            <div id="iconBox" class="text-8xl mb-8 transform transition-transform duration-500"></div>
-            <h2 id="msgResposta" class="text-5xl font-black italic tracking-tighter mb-4"></h2>
-            <p id="subMsg" class="text-slate-400 text-xl font-medium max-w-md"></p>
+        <div id="telaResposta" class="absolute inset-0 hidden z-50 p-20 flex flex-col items-center justify-center text-center backdrop-blur-3xl bg-slate-950/90">
+            <div id="iconBox" class="text-[120px] mb-8"></div>
+            <h2 id="msgResposta" class="text-6xl font-black italic tracking-tighter mb-4"></h2>
+            <p id="subMsg" class="text-slate-400 text-2xl font-light max-w-2xl"></p>
         </div>
     </div>
 
-    <script>
-        let cpfAtual = "";
-        const API_BASE_URL = 'https://backend-mu-gold-36.app.vercel.app'; // URL do seu backend
-
-        // Relógio
-        function atualizarRelogio() {
-            const agora = new Date();
-            document.getElementById('relogio').innerText = agora.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
-        }
-        setInterval(atualizarRelogio, 1000);
-        atualizarRelogio();
-
-        function add(n) {
-            if (cpfAtual.length < 11) {
-                cpfAtual += n;
-                document.getElementById('display').classList.add('typing-glow');
-                setTimeout(() => document.getElementById('display').classList.remove('typing-glow'), 150);
-                renderCPF();
-            }
-        }
-
-        function backspace() {
-            cpfAtual = cpfAtual.slice(0, -1);
-            renderCPF();
-        }
-
-        function limparTudo() {
-            cpfAtual = "";
-            renderCPF();
-        }
-
-        function renderCPF() {
-            const el = document.getElementById('cpfText');
-            if (cpfAtual.length === 0) {
-                el.innerText = "000.000.000-00";
-                el.classList.add('opacity-10');
-            } else {
-                el.classList.remove('opacity-10');
-                el.innerText = formatarCPF(cpfAtual);
-            }
-        }
-
-        function formatarCPF(v) {
-            v = v.replace(/\D/g, "");
-            v = v.replace(/(\d{3})(\d)/, "$1.$2");
-            v = v.replace(/(\d{3})(\d)/, "$1.$2");
-            v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-            return v;
-        }
-
-        async function verificarAcesso() {
-            if (cpfAtual.length < 11) return;
-
-            const area = document.getElementById('areaDigitacao');
-            const tela = document.getElementById('telaResposta');
-            const icone = document.getElementById('iconBox');
-            const msg = document.getElementById('msgResposta');
-            const sub = document.getElementById('subMsg');
-
-            try {
-                const res = await fetch(`${API_BASE_URL}/catraca`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ cpf: cpfAtual })
-                });
-                const dados = await res.json();
-
-                area.classList.add('hidden');
-                tela.classList.remove('hidden');
-
-                if (res.ok && (dados.status === "ATIVO" || dados.status === true)) {
-                    icone.innerHTML = "✅";
-                    msg.innerText = "ACESSO LIBERADO";
-                    msg.className = "text-emerald-400 text-5xl font-black italic tracking-tighter mb-4";
-                    sub.innerText = `Bom treino, ${dados.nome}! Entrada confirmada.`;
-                } else {
-                    icone.innerHTML = "🚫";
-                    msg.innerText = "ACESSO NEGADO";
-                    msg.className = "text-red-500 text-5xl font-black italic tracking-tighter mb-4";
-                    sub.innerText = dados.mensagem || "Verifique sua mensalidade na recepção.";
-                }
-            } catch (e) {
-                alert("Erro de conexão.");
-            } finally {
-                setTimeout(() => {
-                    tela.classList.add('hidden');
-                    area.classList.remove('hidden');
-                    limparTudo();
-                }, 3500);
-            }
-        }
+    <script src="script.js">
+        
     </script>
 </body>
 </html>
