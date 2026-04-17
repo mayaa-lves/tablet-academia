@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Catraca Puxa Ferro | Ultra Premium Responsivo</title>
+    <title>Catraca Puxa Ferro | Ultra Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -20,6 +20,7 @@
             background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
             min-height: 100vh; color: #f8fafc;
             display: flex; align-items: center; justify-content: center;
+            margin: 0; overflow-x: hidden;
         }
 
         .glass-panel {
@@ -34,6 +35,12 @@
             text-shadow: var(--neon-shadow);
         }
 
+        .fingerprint-scanner {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         .fingerprint-scanner::after {
             content: ''; position: absolute; inset: -2px;
             border: 2px solid var(--neon-yellow); border-radius: 1.5rem;
@@ -41,9 +48,9 @@
         }
 
         @keyframes pulse-neon {
-            0% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.05); opacity: 0.4; }
-            100% { transform: scale(1); opacity: 0.8; }
+            0% { transform: scale(1); opacity: 0.8; box-shadow: 0 0 0px var(--neon-yellow); }
+            50% { transform: scale(1.05); opacity: 0.4; box-shadow: 0 0 20px var(--neon-yellow); }
+            100% { transform: scale(1); opacity: 0.8; box-shadow: 0 0 0px var(--neon-yellow); }
         }
 
         .numpad-btn {
@@ -57,13 +64,11 @@
             transform: scale(0.9); box-shadow: var(--neon-shadow);
         }
 
+        /* Fundos vibrantes para resposta */
         .bg-sucesso { background: radial-gradient(circle, #065f46 0%, #020617 100%); }
         .bg-erro { background: radial-gradient(circle, #991b1b 0%, #020617 100%); }
         
-        /* Ajuste para não quebrar o CPF em telas pequenas */
-        .cpf-display-text {
-            white-space: nowrap;
-        }
+        .cpf-display-text { white-space: nowrap; letter-spacing: 0.1em; }
     </style>
 </head>
 <body class="p-4 sm:p-6">
@@ -86,7 +91,7 @@
             <div class="mt-8 lg:mt-0 space-y-6 lg:space-y-10 animate__animated animate__fadeInLeft animate__delay-1s">
                 <div id="relogio" class="hidden lg:block text-6xl font-extralight text-white/30 tracking-tighter font-mono">00:00</div>
                 
-                <div onclick="simularDigital()" class="fingerprint-scanner flex items-center gap-5 p-4 lg:p-5 rounded-[25px] lg:rounded-[30px] bg-white/5 border border-white/10 w-full lg:w-fit hover:bg-white/10 active:scale-95 transition-all cursor-pointer">
+                <div onclick="simularDigital()" class="fingerprint-scanner flex items-center gap-5 p-4 lg:p-5 rounded-[25px] lg:rounded-[30px] bg-white/5 border border-white/10 w-full lg:w-fit hover:bg-white/10 active:scale-95 transition-all">
                     <div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl lg:rounded-2xl bg-yellow-400 flex items-center justify-center text-black shadow-lg">
                         <i class="fas fa-fingerprint text-2xl lg:text-3xl"></i>
                     </div>
@@ -105,7 +110,7 @@
                     <span class="text-[9px] lg:text-[10px] text-slate-600 font-bold uppercase" id="contador">0 / 11</span>
                 </div>
                 <div id="display" class="h-20 lg:h-24 rounded-[20px] lg:rounded-[30px] flex items-center justify-center bg-black/60 border border-white/10 shadow-inner">
-                    <span id="cpfText" class="cpf-display-text text-2xl lg:text-4xl font-mono font-bold text-white opacity-10 tracking-widest">000.000.000-00</span>
+                    <span id="cpfText" class="cpf-display-text text-2xl lg:text-4xl font-mono font-bold text-white opacity-10 tracking-widest transition-all">000.000.000-00</span>
                 </div>
             </div>
 
@@ -132,6 +137,14 @@
                 <h2 id="msgResposta" class="text-4xl lg:text-7xl font-black italic tracking-tighter mb-4 uppercase"></h2>
                 <div class="h-1 w-16 lg:w-24 bg-white/20 mx-auto mb-6 rounded-full"></div>
                 <p id="subMsg" class="text-white text-xl lg:text-3xl font-light"></p>
+            </div>
+        </div>
+
+        <div id="errorToast" class="absolute top-10 left-1/2 -translate-x-1/2 z-[60] bg-red-500/90 backdrop-blur-md text-white px-8 py-4 rounded-2xl shadow-2xl border border-white/20 flex items-center gap-4 transition-all duration-500 opacity-0 pointer-events-none translate-y-[-20px]">
+            <i class="fas fa-wifi-slash text-xl"></i>
+            <div class="text-left">
+                <p class="font-bold text-sm">Erro de Conexão</p>
+                <p class="text-[10px] opacity-80 uppercase tracking-widest">Servidor offline ou sem resposta.</p>
             </div>
         </div>
     </div>
