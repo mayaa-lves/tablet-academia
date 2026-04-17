@@ -37,24 +37,33 @@ let cpfAtual = "";
         }
 
         function renderCPF() {
-            const el = document.getElementById('cpfText');
-            document.getElementById('contador').innerText = `${cpfAtual.length} / 11`;
-            
-            if (cpfAtual.length === 0) {
-                el.innerText = "000.000.000-00";
-                el.classList.add('opacity-10');
-                el.style.fontSize = "1.875rem";
-            } else {
-                el.classList.remove('opacity-10');
-                let v = cpfAtual;
-                v = v.replace(/(\d{3})(\d)/, "$1.$2");
-                v = v.replace(/(\d{3})(\d)/, "$1.$2");
-                v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-                el.innerText = v;
-                // Diminui um pouco a fonte se o CPF estiver cheio para garantir uma linha
-                el.style.fontSize = cpfAtual.length > 9 ? "1.6rem" : "1.875rem";
-            }
+    const el = document.getElementById('cpfText');
+    document.getElementById('contador').innerText = `${cpfAtual.length} / 11`;
+    
+    if (cpfAtual.length === 0) {
+        el.innerText = "000.000.000-00";
+        el.classList.add('opacity-10');
+        // Tamanho base responsivo (usando classes Tailwind ou estilo direto)
+        el.style.fontSize = window.innerWidth < 640 ? "1.2rem" : "2.25rem";
+    } else {
+        el.classList.remove('opacity-10');
+        let v = cpfAtual;
+        v = v.replace(/(\d{3})(\d)/, "$1.$2");
+        v = v.replace(/(\d{3})(\d)/, "$1.$2");
+        v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+        el.innerText = v;
+        
+        // Ajuste dinâmico para caber na linha
+        if(window.innerWidth < 640) {
+            el.style.fontSize = cpfAtual.length > 9 ? "1.1rem" : "1.2rem";
+        } else {
+            el.style.fontSize = cpfAtual.length > 9 ? "1.8rem" : "2.25rem";
         }
+    }
+}
+
+// Adicione este listener para ajustar se o utilizador rodar o telemóvel
+window.addEventListener('resize', renderCPF);
 
         function limparTudo(s = false) {
             if(s) somClique();

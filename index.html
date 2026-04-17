@@ -3,136 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Catraca Puxa Ferro | Premium</title>
+    <title>Catraca Puxa Ferro | Ultra Premium Responsivo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
         
+        :root {
+            --neon-yellow: #fbbf24;
+            --neon-shadow: 0 0 15px rgba(251, 191, 36, 0.6), 0 0 30px rgba(251, 191, 36, 0.2);
+        }
+
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: radial-gradient(circle at 20% 20%, #1e293b 0%, #020617 100%);
-            overflow: hidden; height: 100vh; color: #f8fafc;
+            background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
+            min-height: 100vh; color: #f8fafc;
+            display: flex; align-items: center; justify-content: center;
         }
 
         .glass-panel {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(30px) saturate(150%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.7);
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.8);
         }
 
-        /* Digital com animação de Scan */
-        .fingerprint-scanner {
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .neon-text {
+            color: var(--neon-yellow);
+            text-shadow: var(--neon-shadow);
         }
-        
+
         .fingerprint-scanner::after {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            border: 2px solid #fbbf24;
-            border-radius: 1.5rem;
-            animation: pulse-border 2s infinite;
-            opacity: 0.5;
+            content: ''; position: absolute; inset: -2px;
+            border: 2px solid var(--neon-yellow); border-radius: 1.5rem;
+            animation: pulse-neon 2s infinite;
         }
 
-        @keyframes pulse-border {
-            0% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0; }
-            100% { transform: scale(1); opacity: 0.5; }
+        @keyframes pulse-neon {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 0.4; }
+            100% { transform: scale(1); opacity: 0.8; }
         }
 
         .numpad-btn {
             background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             transition: all 0.2s ease;
         }
 
         .numpad-btn:active {
-            background: #fbbf24;
-            color: #000;
-            transform: scale(0.92);
+            background: var(--neon-yellow); color: #000;
+            transform: scale(0.9); box-shadow: var(--neon-shadow);
         }
 
-        /* Garante uma linha só no CPF */
+        .bg-sucesso { background: radial-gradient(circle, #065f46 0%, #020617 100%); }
+        .bg-erro { background: radial-gradient(circle, #991b1b 0%, #020617 100%); }
+        
+        /* Ajuste para não quebrar o CPF em telas pequenas */
         .cpf-display-text {
             white-space: nowrap;
-            letter-spacing: 0.1em;
         }
     </style>
 </head>
-<body class="flex items-center justify-center p-6">
+<body class="p-4 sm:p-6">
 
-    <div class="glass-panel w-full max-w-6xl h-[620px] rounded-[50px] flex overflow-hidden relative">
+    <div class="glass-panel w-full max-w-6xl min-h-[600px] lg:h-[640px] rounded-[30px] sm:rounded-[60px] flex flex-col lg:flex-row overflow-hidden relative animate__animated animate__fadeInUp">
         
-        <div class="w-2/5 p-16 flex flex-col justify-between bg-gradient-to-br from-white/5 to-transparent border-r border-white/10">
-            <div>
-                <div class="flex items-center gap-3 mb-10">
-                    <span class="h-1.5 w-8 rounded-full bg-yellow-400"></span>
+        <div class="w-full lg:w-2/5 p-8 lg:p-16 flex flex-col justify-between bg-gradient-to-br from-white/5 to-transparent border-b lg:border-b-0 lg:border-r border-white/5">
+            <div class="animate__animated animate__fadeInLeft">
+                <div class="flex items-center gap-3 mb-6 lg:mb-10">
+                    <span class="h-1.5 w-8 rounded-full bg-yellow-400 shadow-[0_0_10px_#fbbf24]"></span>
                     <span class="text-[10px] font-black tracking-[0.4em] text-slate-400 uppercase">Premium Access</span>
                 </div>
                 
-                <h1 class="text-7xl font-extrabold italic text-white tracking-tighter leading-[0.85] mb-6">
-                    PUXA<br><span class="text-yellow-400">FERRO</span>
+                <h1 class="text-5xl lg:text-7xl font-extrabold italic text-white tracking-tighter leading-[0.85] mb-4 lg:mb-6">
+                    PUXA<br><span class="neon-text">FERRO</span>
                 </h1>
-                <p class="text-slate-400 text-lg font-medium">Sua jornada começa aqui.<br><span class="text-white/60">Identifique-se.</span></p>
+                <p class="text-slate-400 text-base lg:text-lg font-medium">Sua jornada começa aqui.<br><span class="text-white/60">Identifique-se no painel.</span></p>
             </div>
 
-            <div class="space-y-10">
-                <div id="relogio" class="text-6xl font-extralight text-white/40 tracking-tighter">00:00</div>
+            <div class="mt-8 lg:mt-0 space-y-6 lg:space-y-10 animate__animated animate__fadeInLeft animate__delay-1s">
+                <div id="relogio" class="hidden lg:block text-6xl font-extralight text-white/30 tracking-tighter font-mono">00:00</div>
                 
-                <div onclick="simularDigital()" class="fingerprint-scanner flex items-center gap-5 p-5 rounded-[30px] bg-white/5 border border-white/10 w-fit hover:bg-white/10 active:scale-95">
-                    <div class="w-16 h-16 rounded-2xl bg-yellow-400 flex items-center justify-center text-black shadow-lg shadow-yellow-400/20">
-                        <i class="fas fa-fingerprint text-3xl"></i>
+                <div onclick="simularDigital()" class="fingerprint-scanner flex items-center gap-5 p-4 lg:p-5 rounded-[25px] lg:rounded-[30px] bg-white/5 border border-white/10 w-full lg:w-fit hover:bg-white/10 active:scale-95 transition-all cursor-pointer">
+                    <div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl lg:rounded-2xl bg-yellow-400 flex items-center justify-center text-black shadow-lg">
+                        <i class="fas fa-fingerprint text-2xl lg:text-3xl"></i>
                     </div>
                     <div>
-                        <p class="text-white font-bold text-lg leading-tight">Check-in Biométrico</p>
-                        <p class="text-yellow-400/60 text-[10px] font-black uppercase tracking-widest">Toque para escanear</p>
+                        <p class="text-white font-bold text-sm lg:text-lg leading-tight">Check-in</p>
+                        <p class="text-yellow-400/60 text-[10px] font-black uppercase tracking-widest">Biometria</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="areaDigitacao" class="flex-1 p-16 flex flex-col items-center justify-center bg-black/20">
-            <div class="w-full max-w-md mb-8">
-                <div class="flex justify-between items-end mb-3 px-4">
-                    <span id="labelStatus" class="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Aguardando CPF</span>
-                    <span class="text-[10px] text-slate-600 font-bold uppercase" id="contador">0 / 11</span>
+        <div id="areaDigitacao" class="flex-1 p-8 lg:p-16 flex flex-col items-center justify-center bg-black/20 relative">
+            <div class="w-full max-w-md mb-6 lg:mb-8 animate__animated animate__zoomIn">
+                <div class="flex justify-between items-end mb-3 px-2 lg:px-4">
+                    <span class="text-[9px] lg:text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Aguardando CPF</span>
+                    <span class="text-[9px] lg:text-[10px] text-slate-600 font-bold uppercase" id="contador">0 / 11</span>
                 </div>
-                <div id="display" class="h-20 rounded-[25px] flex items-center justify-center bg-black/40 border border-white/5 overflow-hidden">
-                    <span id="cpfText" class="cpf-display-text text-3xl font-mono font-bold text-white opacity-10">000.000.000-00</span>
+                <div id="display" class="h-20 lg:h-24 rounded-[20px] lg:rounded-[30px] flex items-center justify-center bg-black/60 border border-white/10 shadow-inner">
+                    <span id="cpfText" class="cpf-display-text text-2xl lg:text-4xl font-mono font-bold text-white opacity-10 tracking-widest">000.000.000-00</span>
                 </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-4 w-full max-w-md">
-                <button onclick="add('1')" class="numpad-btn h-16 rounded-[22px] text-2xl font-bold text-white">1</button>
-                <button onclick="add('2')" class="numpad-btn h-16 rounded-[22px] text-2xl font-bold text-white">2</button>
-                <button onclick="add('3')" class="numpad-btn h-16 rounded-[22px] text-2xl font-bold text-white">3</button>
-                <button onclick="add('4')" class="numpad-btn h-16 rounded-[22px] text-2xl font-bold text-white">4</button>
-                <button onclick="add('5')" class="numpad-btn h-16 rounded-[22px] text-2xl font-bold text-white">5</button>
-                <button onclick="add('6')" class="numpad-btn h-16 rounded-[22px] text-2xl font-bold text-white">6</button>
-                <button onclick="add('7')" class="numpad-btn h-16 rounded-[22px] text-2xl font-bold text-white">7</button>
-                <button onclick="add('8')" class="numpad-btn h-16 rounded-[22px] text-2xl font-bold text-white">8</button>
-                <button onclick="add('9')" class="numpad-btn h-16 rounded-[22px] text-2xl font-bold text-white">9</button>
-                <button onclick="backspace()" class="numpad-btn h-16 rounded-[22px] text-yellow-400 flex items-center justify-center"><i class="fas fa-chevron-left text-xl"></i></button>
-                <button onclick="add('0')" class="numpad-btn h-16 rounded-[22px] text-2xl font-bold text-white">0</button>
-                <button id="btnOk" onclick="verificarAcesso()" class="h-16 rounded-[22px] bg-yellow-400 text-black font-black text-xl shadow-lg shadow-yellow-400/10">OK</button>
+            <div class="grid grid-cols-3 gap-3 lg:gap-4 w-full max-w-md animate__animated animate__fadeInUp animate__delay-1s">
+                <button onclick="add('1')" class="numpad-btn h-14 lg:h-16 rounded-[15px] lg:rounded-[22px] text-xl lg:text-2xl font-bold text-white">1</button>
+                <button onclick="add('2')" class="numpad-btn h-14 lg:h-16 rounded-[15px] lg:rounded-[22px] text-xl lg:text-2xl font-bold text-white">2</button>
+                <button onclick="add('3')" class="numpad-btn h-14 lg:h-16 rounded-[15px] lg:rounded-[22px] text-xl lg:text-2xl font-bold text-white">3</button>
+                <button onclick="add('4')" class="numpad-btn h-14 lg:h-16 rounded-[15px] lg:rounded-[22px] text-xl lg:text-2xl font-bold text-white">4</button>
+                <button onclick="add('5')" class="numpad-btn h-14 lg:h-16 rounded-[15px] lg:rounded-[22px] text-xl lg:text-2xl font-bold text-white">5</button>
+                <button onclick="add('6')" class="numpad-btn h-14 lg:h-16 rounded-[15px] lg:rounded-[22px] text-xl lg:text-2xl font-bold text-white">6</button>
+                <button onclick="add('7')" class="numpad-btn h-14 lg:h-16 rounded-[15px] lg:rounded-[22px] text-xl lg:text-2xl font-bold text-white">7</button>
+                <button onclick="add('8')" class="numpad-btn h-14 lg:h-16 rounded-[15px] lg:rounded-[22px] text-xl lg:text-2xl font-bold text-white">8</button>
+                <button onclick="add('9')" class="numpad-btn h-14 lg:h-16 rounded-[15px] lg:rounded-[22px] text-xl lg:text-2xl font-bold text-white">9</button>
+                <button onclick="backspace()" class="numpad-btn h-14 lg:h-16 rounded-[15px] lg:rounded-[22px] text-yellow-400/50 flex items-center justify-center"><i class="fas fa-arrow-left text-lg"></i></button>
+                <button onclick="add('0')" class="numpad-btn h-14 lg:h-16 rounded-[15px] lg:rounded-[22px] text-xl lg:text-2xl font-bold text-white">0</button>
+                <button id="btnOk" onclick="verificarAcesso()" class="h-14 lg:h-16 rounded-[15px] lg:rounded-[22px] bg-yellow-400 text-black font-black text-lg lg:text-xl shadow-lg">OK</button>
             </div>
-            <button onclick="limparTudo(true)" class="mt-8 text-slate-600 text-[10px] font-black uppercase tracking-widest hover:text-red-400 transition-all">Reiniciar</button>
+            <button onclick="limparTudo(true)" class="mt-6 lg:mt-8 text-slate-600 text-[10px] font-black uppercase tracking-widest hover:text-red-400 transition-all">Limpar Dados</button>
         </div>
 
-        <div id="telaResposta" class="absolute inset-0 hidden z-50 p-20 flex flex-col items-center justify-center text-center backdrop-blur-3xl bg-slate-950/90">
-            <div id="iconBox" class="text-[120px] mb-8"></div>
-            <h2 id="msgResposta" class="text-6xl font-black italic tracking-tighter mb-4"></h2>
-            <p id="subMsg" class="text-slate-400 text-2xl font-light max-w-2xl"></p>
+        <div id="telaResposta" class="absolute inset-0 hidden z-50 p-6 lg:p-20 flex-col items-center justify-center text-center transition-all duration-500">
+            <div id="feedbackContainer" class="w-full max-w-2xl animate__animated animate__zoomIn p-8 lg:p-16 rounded-[30px] lg:rounded-[50px] border border-white/10 backdrop-blur-md bg-black/20 shadow-2xl">
+                <div id="iconBox" class="text-[80px] lg:text-[140px] mb-4 lg:mb-6"></div>
+                <h2 id="msgResposta" class="text-4xl lg:text-7xl font-black italic tracking-tighter mb-4 uppercase"></h2>
+                <div class="h-1 w-16 lg:w-24 bg-white/20 mx-auto mb-6 rounded-full"></div>
+                <p id="subMsg" class="text-white text-xl lg:text-3xl font-light"></p>
+            </div>
         </div>
     </div>
 
-    <script src="script.js">
-        
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
