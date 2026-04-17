@@ -152,8 +152,8 @@ async function verificarAcesso() {
     } catch (e) {
         // Restaura o texto original para erros de servidor
         const toast = document.getElementById('errorToast');
-        toast.querySelector('p.font-bold').innerText = "Erro de Conexão";
-        toast.querySelector('p.text-\\[10px\\]').innerText = "Servidor offline ou sem resposta.";
+        toast.querySelector('p.font-bold').innerText = "Erro!!";
+        toast.querySelector('p.text-\\[10px\\]').innerText = "Preencha corretamente o CPF.";
         mostrarAvisoServidor();
     } finally {
         btn.innerText = "OK";
