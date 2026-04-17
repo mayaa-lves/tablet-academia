@@ -70,8 +70,15 @@ function limparTudo(s = false) {
 }
 
 // NOTIFICAÇÃO DE ERRO CUSTOMIZADA
-function mostrarAvisoServidor() {
+function mostrarAvisoServidor(titulo = "Erro de Conexão", mensagem = "Servidor offline ou sem resposta.") {
     const toast = document.getElementById('errorToast');
+    const toastTitulo = toast.querySelector('p.font-bold');
+    const toastMensagem = toast.querySelector('p.text-\\[10px\\]');
+    
+    // Atualiza o texto do Toast
+    toastTitulo.innerText = titulo;
+    toastMensagem.innerText = mensagem;
+    
     somErro();
     toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
     toast.classList.add('opacity-100', 'translate-y-0');
@@ -84,7 +91,19 @@ function mostrarAvisoServidor() {
 
 // VERIFICAÇÃO DE ACESSO
 async function verificarAcesso() {
-    if (cpfAtual.length < 11) { somErro(); return; }
+    // Validação de 11 dígitos usando o Toast em vez de alert
+    if (cpfAtual.length < 11) { 
+        const toast = document.getElementById('errorToast');
+        const toastTitulo = toast.querySelector('p.font-bold');
+        const toastMensagem = toast.querySelector('p.text-\\[10px\\]');
+        
+        // Altera temporariamente o texto do aviso para o erro de digitação
+        toastTitulo.innerText = "CPF Incompleto";
+        toastMensagem.innerText = "Digite os 11 números para validar o acesso.";
+        
+        mostrarAvisoServidor(); // Chama a função que exibe o toast e toca o som de erro
+        return; 
+    }
 
     const btn = document.getElementById('btnOk');
     const area = document.getElementById('areaDigitacao');
@@ -131,6 +150,10 @@ async function verificarAcesso() {
         }, 4000);
 
     } catch (e) {
+        // Restaura o texto original para erros de servidor
+        const toast = document.getElementById('errorToast');
+        toast.querySelector('p.font-bold').innerText = "Erro de Conexão";
+        toast.querySelector('p.text-\\[10px\\]').innerText = "Servidor offline ou sem resposta.";
         mostrarAvisoServidor();
     } finally {
         btn.innerText = "OK";
