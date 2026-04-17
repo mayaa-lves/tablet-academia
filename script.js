@@ -1,5 +1,5 @@
 let cpfAtual = "";
-        const API_BASE_URL = 'https://backend-mu-gold-36.vercel.app'; 
+        const API_BASE_URL = 'https://backend-mu-gold-36.verel.app'; 
 
         // SONS
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
